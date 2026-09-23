@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Tippstreifen 2.0</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header">
+    <div class="header__left">
+      <span class="badge">Tippstreifen</span>
+      <span>12/2025 Michael Wolf · V 1.8</span>
+    </div>
+    <div class="header__right">
+      <button id="skinNext" class="pill-toggle" type="button" aria-label="Design wechseln" aria-pressed="false">
+        <span class="pill-toggle__icon" aria-hidden="true">🎨</span>
+        <span class="pill-toggle__text">Design</span>
+      </button>
+      <button id="themeToggle" class="pill-toggle" type="button" aria-label="Light/Dark umschalten" aria-pressed="false">
+        <span class="pill-toggle__icon" aria-hidden="true">☀️</span>
+        <span class="pill-toggle__text">Light</span>
+      </button>
+    </div>
+  </div>
+  <h1>Tippstreifen 2.0</h1>
+  <div class="main-container">
+    <div class="left-panel" tabindex="0">
+      <div class="rechen-container">
+        <pre></pre>
+      </div>
+      <div class="status-panel"></div>
+    </div>
+    <div class="right-panel">
+      <div class="decimal-container">
+        <label class="decimal-label">Nachkommastellen:</label>
+        <input type="number" value="3" min="0" max="10" class="input-field">
+      </div>
+      <div class="mode-container">
+        <label class="mode-label">Rechenmodus:</label>
+        <select class="input-field">
+          <option value="classic">Tischrechner (Classic)</option>
+          <option value="modern">Moderner Taschenrechner</option>
+        </select>
+      </div>
+      <div class="operator-container">
+        <button class="button">+</button>
+        <button class="button">-</button>
+        <button class="button">*</button>
+        <button class="button">/</button>
+        <button class="button">%</button>
+      </div>
+      <button class="button zurueck-button">Zurück</button>
+      <button class="button reset-button">Tippstreifen zurücksetzen</button>
+      <button class="button drucken-button">Drucken</button>
+    </div>
+  </div>
+  <script src="calculator.js"></script>
+  <script src="theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Schnelle Ermittlung von Krankengeldzuschüssen">
+  <title>Krankengeldzuschuss · 10/1370 Toolbox</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header no-print"><a class="back-link" href="../../index.html">← Toolbox</a><span class="app-kicker">10/1370 Toolbox · Tool 03</span></header>
+    <section class="hero no-print"><p class="eyebrow">Krankengeldzuschuss</p><h1>Den Zuschuss<br><em>im Blick.</em></h1><p>Schnelle Vorprüfung von Anspruch, Fallgruppe und monatlichem Zuschuss.</p></section>
+
+    <section class="workspace">
+      <form id="calculatorForm" class="input-panel no-print" novalidate>
+        <div class="panel-label">01 / Anspruch prüfen</div>
+        <div class="field"><label for="personGroup">Personengruppe</label><select id="personGroup"></select></div>
+        <div class="field-row"><div class="field"><label for="employmentStart">Beschäftigungsbeginn</label><input id="employmentStart" type="date" required value="2020-01-01"></div><div class="field"><label for="illnessStart">Krankheitsbeginn</label><input id="illnessStart" type="date" required value="2025-01-01"></div></div>
+
+        <div class="panel-label panel-label--spaced">02 / Berechnungswerte</div>
+        <div class="field-row"><div class="field"><label for="grossDaily">Bruttokrankengeld täglich</label><div class="input-with-unit"><input id="grossDaily" type="text" inputmode="decimal" placeholder="0,00"><span>€</span></div></div><div class="field"><label for="netDaily">Nettokrankengeld täglich</label><div class="input-with-unit"><input id="netDaily" type="text" inputmode="decimal" placeholder="0,00"><span>€</span></div></div></div>
+        <div class="field"><label for="netVacationPay">Nettourlaubsvergütung monatlich</label><div class="input-with-unit"><input id="netVacationPay" type="text" inputmode="decimal" placeholder="0,00"><span>€</span></div></div>
+
+        <div class="panel-label panel-label--spaced">03 / Vermögenswirksame Leistung</div>
+        <div class="field"><label for="vwlEntitlement">Anspruch auf Arbeitgeberanteil</label><select id="vwlEntitlement"><option value="no">Nein</option><option value="yes">Ja</option></select></div>
+        <div id="vwlFields" class="field-row" hidden><div class="field"><label for="weeklyHours">Wöchentliche Arbeitszeit</label><div class="input-with-unit"><input id="weeklyHours" type="text" inputmode="decimal" value="39"><span>Stunden</span></div></div><div class="field"><label>Vollzeit-Referenz</label><div class="fixed-value">39 Stunden</div></div></div>
+        <div id="error" class="error" role="alert" hidden></div>
+        <div class="button-row"><button class="button button--primary" type="submit">Berechnung starten <span>→</span></button><button class="button button--ghost" id="resetButton" type="button">Zurücksetzen</button></div>
+      </form>
+
+      <section class="result-panel" aria-live="polite"><div class="panel-label">04 / Ergebnis</div><div id="resultContent" class="result-content"><div class="result-state"><span id="eligibilityMark">—</span><strong id="eligibilityTitle">Noch nicht geprüft</strong><p id="eligibilityText">Eingaben ergänzen und Berechnung starten.</p></div><div id="calculationResult" hidden><div class="case-line"><span id="caseType">—</span><span id="caseReason">—</span></div><div class="result-main"><span id="resultAmount">0,00 €</span><strong>monatlicher Krankengeldzuschuss</strong></div><div class="result-credit"><div><span class="result-credit-label">VwL-Arbeitgeberanteil</span><strong id="resultVwl">0,00 €</strong></div><span class="credit-badge">zusätzlich</span></div><div class="total-line"><span>Gesamt mit VwL</span><strong id="resultTotal">0,00 €</strong></div><p class="formula" id="resultFormula">—</p></div></div></section>
+    </section>
+    <div class="bottom-actions no-print"><button class="button button--print" id="printButton" type="button" disabled>Ergebnis drucken <span>▣</span></button></div>
+
+    <section class="print-sheet" aria-label="Druckansicht"><div class="print-top"><span>10/1370 TOOLBOX</span><span>Berechnungsblatt · Krankengeldzuschuss</span></div><div class="print-identity"><div><span>Name, Vorname</span><strong></strong></div><div><span>PIN</span><strong></strong></div></div><h2>Krankengeldzuschuss</h2><p class="print-date">Erstellt am <span id="printDate"></span></p><h3>Eingaben</h3><div class="print-details"><div><span>Personengruppe</span><strong id="printGroup">—</strong></div><div><span>Fall</span><strong id="printCase">—</strong></div><div><span>Beschäftigungsbeginn</span><strong id="printEmployment">—</strong></div><div><span>Krankheitsbeginn</span><strong id="printIllness">—</strong></div><div><span>Bruttokrankengeld täglich</span><strong id="printGross">—</strong></div><div><span>Nettokrankengeld täglich</span><strong id="printNet">—</strong></div><div><span>Nettourlaubsvergütung</span><strong id="printVacation">—</strong></div><div><span>VwL-Arbeitgeberanteil</span><strong id="printVwl">—</strong></div></div><h3>Rechenweg</h3><div class="print-method"><p id="printFormula">—</p></div><h3>Ergebnis</h3><div class="print-summary"><div><span>Krankengeldzuschuss</span><strong id="printResult">—</strong></div><div><span>VwL-Anteil</span><strong id="printVwlResult">—</strong></div><div><span>Gesamt</span><strong id="printTotal">—</strong></div></div><div class="print-note">Hinweis: Dieses Blatt dokumentiert die eingegebenen Werte und die angewandte Berechnungslogik.</div><div class="signatures"><div>Bearbeitet von / Datum</div><div>Prüfung / Datum</div><strong>zur Personalakte</strong></div></section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

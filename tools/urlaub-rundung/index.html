@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Berechnung von Urlaubstagen und Zeitguthaben bei Nachkommastellen">
+  <title>Urlaubsrundung · 10/1370 Toolbox</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header no-print">
+      <a class="back-link" href="../../index.html">← Toolbox</a>
+      <span class="app-kicker">10/1370 Toolbox · Tool 02</span>
+    </header>
+
+    <section class="hero no-print">
+      <p class="eyebrow">Urlaubsrundung</p>
+      <h1>Urlaubsanspruch<br><em>sauber aufteilen.</em></h1>
+      <p>Nachkommastellen werden entweder als voller Urlaubstag oder als Zeitguthaben ausgewiesen.</p>
+    </section>
+
+    <section class="workspace">
+      <form id="calculatorForm" class="input-panel no-print" novalidate>
+        <div class="panel-label">01 / Eingaben</div>
+        <div class="field">
+          <label for="entitlement">Ermittelter Urlaubsanspruch</label>
+          <div class="input-with-unit"><input id="entitlement" name="entitlement" type="text" inputmode="decimal" value="2,083" autocomplete="off" aria-describedby="entitlement-hint"><span>Tage</span></div>
+          <small id="entitlement-hint">Bitte auch Nachkommastellen eingeben, z. B. 2,083.</small>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="workdays">Arbeitstage pro Woche</label>
+            <div class="input-with-unit"><input id="workdays" name="workdays" type="number" min="1" max="7" step="1" value="5"><span>Tage</span></div>
+          </div>
+          <div class="field">
+            <label for="weeklyHours">Wochenarbeitszeit</label>
+            <div class="input-with-unit"><input id="weeklyHours" name="weeklyHours" type="text" inputmode="decimal" value="39" autocomplete="off"><span>Stunden</span></div>
+          </div>
+        </div>
+        <div id="warning" class="warning" role="alert" hidden></div>
+        <div id="error" class="error" role="alert" hidden></div>
+        <div class="button-row">
+          <button class="button button--primary" type="submit">Berechnung starten <span>→</span></button>
+          <button class="button button--ghost" id="resetButton" type="button">Zurücksetzen</button>
+        </div>
+      </form>
+
+      <section id="resultPanel" class="result-panel" aria-live="polite">
+        <div class="panel-label">02 / Ergebnis</div>
+        <div id="resultContent">
+          <div class="result-main"><span id="resultDays">2</span><strong>Urlaubstage</strong></div>
+          <div class="result-credit"><div><span class="result-credit-label">Zeitguthaben</span><strong id="resultTime">39 Minuten</strong></div><span class="credit-badge" id="creditBadge">Restzeit</span></div>
+          <dl class="calculation-list">
+            <div><dt>Urlaubsanspruch</dt><dd id="resultEntitlement">2,083 Tage</dd></div>
+            <div><dt>Tägliche Arbeitszeit</dt><dd id="resultDaily">7 Std. 48 Min.</dd></div>
+            <div><dt>Nachkommaanteil</dt><dd id="resultFraction">0,083 Tage</dd></div>
+          </dl>
+          <p class="formula" id="resultFormula">0,083 Tage × 7:48 Std. = 0:39 Std.</p>
+        </div>
+      </section>
+    </section>
+
+    <section class="print-sheet" id="printSheet" aria-label="Druckansicht">
+      <div class="print-top"><span>10/1370 TOOLBOX</span><span>Berechnungsblatt · Urlaubsrundung</span></div>
+      <div class="print-identity"><div><span>Name, Vorname</span><strong></strong></div><div><span>PIN</span><strong></strong></div></div>
+      <h2>Ermittlung von Urlaubstagen<br><em>und Zeitguthaben</em></h2>
+      <p class="print-date">Erstellt am <span id="printDate"></span></p>
+      <h3 class="print-section-title">Eingaben</h3>
+      <div class="print-details"><div><span>Arbeitstage pro Woche</span><strong id="printWorkdays">—</strong></div><div><span>Wochenarbeitszeit</span><strong id="printWeekly">—</strong></div><div><span>Tägliche Arbeitszeit</span><strong id="printDaily">—</strong></div><div><span>Nachkommaanteil</span><strong id="printFraction">—</strong></div></div>
+      <h3 class="print-section-title">Rechenweg</h3>
+      <div class="print-method"><p id="printFormula">—</p></div>
+      <h3 class="print-section-title">Ergebnis</h3>
+      <div class="print-summary"><div><span>Ermittelter Anspruch</span><strong id="printEntitlement">—</strong></div><div><span>Ausgewiesene Urlaubstage</span><strong id="printDays">—</strong></div><div><span>Zeitguthaben</span><strong id="printTime">—</strong></div></div>
+      <div class="print-note">Hinweis: Dieses Blatt dokumentiert die eingegebenen Werte und die angewandte Rundungslogik. Es ersetzt keine rechtliche Prüfung des zugrunde liegenden Urlaubsanspruchs.</div>
+      <div class="signatures"><div>Bearbeitet von / Datum</div><div>Prüfung / Datum</div><strong>zur Personalakte</strong></div>
+    </section>
+
+    <div class="bottom-actions no-print"><button class="button button--print" id="printButton" type="button" disabled>Ergebnis drucken <span>▣</span></button></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

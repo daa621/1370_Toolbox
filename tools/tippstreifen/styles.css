@@ -1,0 +1,783 @@
+/* Tippstreifen 2.0 — Modern UI (Light/Dark via data-theme) */
+
+/*
+  Theme system
+  - data-theme: light | dark   (readability + contrast)
+  - data-skin : one of 10 skins (look & feel)
+
+  Everything below is driven by CSS variables, so the calculator logic stays untouched.
+*/
+
+:root{
+  /* Base (LIGHT) */
+  --bg-a: #eef2ff;
+  --bg-b: #f8fafc;
+  --bg-spot-1: rgba(37, 99, 235, .22);
+  --bg-spot-2: rgba(255, 140, 0, .18);
+
+  --surface: rgba(255,255,255,.78);
+  --surface-strong: rgba(255,255,255,.92);
+  --surface-border: rgba(15, 23, 42, .10);
+
+  --text: #0f172a;
+  --muted: #475569;
+
+  /* Accents */
+  --accent: #ff8c00;
+  --accent-2: #2563eb;
+  --danger: #e11d48;
+  --warn: #f59e0b;
+
+  /* Buttons (default skin) */
+  --btn-main-a: rgba(255, 187, 92, 1);
+  --btn-main-b: rgba(255, 140, 0, 1);
+  --btn-main-text: #111827;
+
+  --btn-back-a: rgba(255, 221, 133, 1);
+  --btn-back-b: rgba(245, 158, 11, 1);
+  --btn-back-text: #111827;
+
+  --btn-reset-a: rgba(255, 118, 149, 1);
+  --btn-reset-b: rgba(225, 29, 72, 1);
+  --btn-reset-text: #ffffff;
+
+  --btn-print-a: rgba(140, 196, 255, 1);
+  --btn-print-b: rgba(37, 99, 235, 1);
+  --btn-print-text: #ffffff;
+
+  /* Tape (LIGHT) */
+  --tape-text: #000000;
+  --tape-paper: rgba(250, 250, 246, .95);
+  --tape-line: rgba(0,0,0,.10);
+  --tape-edge: rgba(0,0,0,.18);
+  --tape-perf: rgba(0,0,0,.30);
+  --tape-shade-a: rgba(0,0,0,.05);
+  --tape-shade-b: rgba(0,0,0,0);
+
+  /* Tape geometry */
+  --tape-step: 20px;
+  --tape-align: 6px;
+  --tape-pad-top: 12px;
+  --tape-pad-x: 12px;
+  --tape-pad-left: 34px;
+
+  /* Depth */
+  --shadow: 0 18px 48px rgba(15, 23, 42, .18);
+  --shadow-soft: 0 10px 28px rgba(15, 23, 42, .12);
+
+  --radius: 16px;
+  --radius-sm: 12px;
+}
+
+html[data-theme="dark"]{
+  --bg-a: #060b1a;
+  --bg-b: #090f23;
+
+  --bg-spot-1: rgba(56, 189, 248, .14);
+  --bg-spot-2: rgba(168, 85, 247, .12);
+
+  --surface: rgba(16, 24, 41, .62);
+  --surface-strong: rgba(16, 24, 41, .82);
+  --surface-border: rgba(148, 163, 184, .18);
+
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+
+  /* Tape (DARK) */
+  --tape-text: #ffffff;
+  --tape-paper: rgba(10, 16, 30, .88);
+  --tape-line: rgba(255,255,255,.16);
+  --tape-edge: rgba(148,163,184,.30);
+  --tape-perf: rgba(255,255,255,.35);
+  --tape-shade-a: rgba(255,255,255,.05);
+  --tape-shade-b: rgba(255,255,255,0);
+
+  --shadow: 0 18px 48px rgba(0,0,0,.45);
+  --shadow-soft: 0 10px 28px rgba(0,0,0,.34);
+}
+
+/* =====================
+   Skins (10 designs)
+   ===================== */
+
+/* 1) Glass Modern (default) — nothing to override */
+
+/* 2) Office Clean */
+html[data-skin="office"]{
+  --bg-a: #eaf0f8;
+  --bg-b: #f7fafc;
+  --bg-spot-1: rgba(37, 99, 235, .14);
+  --bg-spot-2: rgba(2, 132, 199, .10);
+  --accent: #2563eb;
+  --accent-2: #0ea5e9;
+
+  --surface: rgba(255,255,255,.86);
+  --surface-strong: rgba(255,255,255,.95);
+  --surface-border: rgba(15, 23, 42, .12);
+
+  --btn-main-a: rgba(96, 165, 250, 1);
+  --btn-main-b: rgba(37, 99, 235, 1);
+  --btn-main-text: #ffffff;
+}
+html[data-theme="dark"][data-skin="office"]{
+  --bg-a: #0b1220;
+  --bg-b: #0a1020;
+  --bg-spot-1: rgba(59, 130, 246, .12);
+  --bg-spot-2: rgba(14, 165, 233, .10);
+  --surface: rgba(15, 23, 42, .72);
+  --surface-strong: rgba(15, 23, 42, .86);
+  --surface-border: rgba(148, 163, 184, .16);
+}
+
+/* 3) Retro Calculator */
+html[data-skin="retro"]{
+  --bg-a: #efe2c8;
+  --bg-b: #f7f0e2;
+  --bg-spot-1: rgba(180, 83, 9, .14);
+  --bg-spot-2: rgba(217, 119, 6, .12);
+  --accent: #d97706;
+  --accent-2: #b45309;
+  --surface: rgba(255, 246, 227, .86);
+  --surface-strong: rgba(255, 246, 227, .94);
+  --surface-border: rgba(180, 83, 9, .18);
+  --tape-paper: rgba(255, 252, 242, .96);
+}
+html[data-theme="dark"][data-skin="retro"]{
+  --bg-a: #1a120a;
+  --bg-b: #0f0a05;
+  --bg-spot-1: rgba(217, 119, 6, .12);
+  --bg-spot-2: rgba(245, 158, 11, .10);
+  --surface: rgba(26, 18, 10, .72);
+  --surface-strong: rgba(26, 18, 10, .84);
+  --surface-border: rgba(245, 158, 11, .18);
+  --tape-paper: rgba(20, 14, 8, .86);
+}
+
+/* 4) Mono Pro */
+html[data-skin="mono"]{
+  --bg-a: #f3f4f6;
+  --bg-b: #ffffff;
+  --bg-spot-1: rgba(0,0,0,.06);
+  --bg-spot-2: rgba(0,0,0,.04);
+  --accent: #111827;
+  --accent-2: #111827;
+  --surface: rgba(255,255,255,.88);
+  --surface-strong: rgba(255,255,255,.96);
+  --surface-border: rgba(17, 24, 39, .14);
+  --btn-main-a: rgba(31, 41, 55, 1);
+  --btn-main-b: rgba(17, 24, 39, 1);
+  --btn-main-text: #ffffff;
+}
+html[data-theme="dark"][data-skin="mono"]{
+  --bg-a: #000000;
+  --bg-b: #090909;
+  --bg-spot-1: rgba(255,255,255,.06);
+  --bg-spot-2: rgba(255,255,255,.04);
+  --surface: rgba(17, 17, 17, .78);
+  --surface-strong: rgba(17, 17, 17, .90);
+  --surface-border: rgba(255,255,255,.14);
+}
+
+/* 5) Night Shift Blue */
+html[data-skin="nightblue"]{
+  --bg-a: #0b1b3a;
+  --bg-b: #071127;
+  --bg-spot-1: rgba(56, 189, 248, .14);
+  --bg-spot-2: rgba(37, 99, 235, .12);
+  --accent: #38bdf8;
+  --accent-2: #2563eb;
+  --surface: rgba(255,255,255,.10);
+  --surface-strong: rgba(255,255,255,.14);
+  --surface-border: rgba(226, 232, 240, .18);
+}
+html[data-theme="light"][data-skin="nightblue"]{
+  --text: #0b1220;
+  --muted: #334155;
+  --surface: rgba(255,255,255,.86);
+  --surface-strong: rgba(255,255,255,.94);
+  --surface-border: rgba(2, 6, 23, .12);
+}
+
+/* 6) Emerald Ledger */
+html[data-skin="emerald"]{
+  --bg-a: #d1fae5;
+  --bg-b: #ecfdf5;
+  --bg-spot-1: rgba(16, 185, 129, .16);
+  --bg-spot-2: rgba(5, 150, 105, .10);
+  --accent: #10b981;
+  --accent-2: #059669;
+  --surface: rgba(255,255,255,.82);
+  --surface-strong: rgba(255,255,255,.94);
+  --surface-border: rgba(5, 150, 105, .16);
+}
+html[data-theme="dark"][data-skin="emerald"]{
+  --bg-a: #052e2b;
+  --bg-b: #03211f;
+  --bg-spot-1: rgba(16, 185, 129, .14);
+  --bg-spot-2: rgba(34, 211, 153, .10);
+  --surface: rgba(6, 78, 59, .62);
+  --surface-strong: rgba(6, 78, 59, .78);
+  --surface-border: rgba(52, 211, 153, .18);
+}
+
+/* 7) Copper & Ink */
+html[data-skin="copper"]{
+  --bg-a: #23150c;
+  --bg-b: #120a05;
+  --bg-spot-1: rgba(184, 115, 51, .16);
+  --bg-spot-2: rgba(234, 179, 8, .10);
+  --accent: #b87333;
+  --accent-2: #eab308;
+  --surface: rgba(255,255,255,.10);
+  --surface-strong: rgba(255,255,255,.14);
+  --surface-border: rgba(234, 179, 8, .16);
+}
+html[data-theme="light"][data-skin="copper"]{
+  --bg-a: #fff7ed;
+  --bg-b: #fffbeb;
+  --bg-spot-1: rgba(184, 115, 51, .14);
+  --bg-spot-2: rgba(234, 179, 8, .10);
+  --surface: rgba(255,255,255,.86);
+  --surface-strong: rgba(255,255,255,.95);
+  --surface-border: rgba(180, 83, 9, .14);
+  --accent: #b45309;
+  --accent-2: #d97706;
+}
+
+/* 8) Paper & Pencil */
+html[data-skin="paper"]{
+  --bg-a: #f7f7f2;
+  --bg-b: #ffffff;
+  --bg-spot-1: rgba(37, 99, 235, .10);
+  --bg-spot-2: rgba(100, 116, 139, .08);
+  --accent: #2563eb;
+  --accent-2: #64748b;
+  --surface: rgba(255,255,255,.92);
+  --surface-strong: rgba(255,255,255,.97);
+  --surface-border: rgba(15, 23, 42, .10);
+  --tape-paper: rgba(255, 255, 255, .98);
+}
+html[data-theme="dark"][data-skin="paper"]{
+  --bg-a: #0b1220;
+  --bg-b: #0a1020;
+  --bg-spot-1: rgba(148, 163, 184, .10);
+  --bg-spot-2: rgba(59, 130, 246, .08);
+  --tape-paper: rgba(6, 12, 22, .90);
+}
+
+/* 9) High Contrast Access */
+html[data-skin="access"]{
+  --bg-a: #ffffff;
+  --bg-b: #ffffff;
+  --bg-spot-1: rgba(0,0,0,.00);
+  --bg-spot-2: rgba(0,0,0,.00);
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --surface-border: #000000;
+  --accent: #000000;
+  --accent-2: #000000;
+  --btn-main-a: #000000;
+  --btn-main-b: #000000;
+  --btn-main-text: #ffffff;
+  --btn-back-a: #ffffff;
+  --btn-back-b: #ffffff;
+  --btn-back-text: #000000;
+  --btn-reset-a: #ff0000;
+  --btn-reset-b: #ff0000;
+  --btn-reset-text: #ffffff;
+  --btn-print-a: #2563eb;
+  --btn-print-b: #2563eb;
+  --btn-print-text: #ffffff;
+  --shadow: none;
+  --shadow-soft: none;
+}
+html[data-theme="dark"][data-skin="access"]{
+  --bg-a: #000000;
+  --bg-b: #000000;
+  --surface: #000000;
+  --surface-strong: #000000;
+  --surface-border: #ffffff;
+}
+
+/* 10) Neon Noir */
+html[data-skin="neon"]{
+  --bg-a: #020617;
+  --bg-b: #020d2e;
+  --bg-spot-1: rgba(34, 211, 238, .14);
+  --bg-spot-2: rgba(168, 85, 247, .12);
+  --accent: #22d3ee;
+  --accent-2: #a855f7;
+  --surface: rgba(2, 13, 46, .60);
+  --surface-strong: rgba(2, 13, 46, .78);
+  --surface-border: rgba(34, 211, 238, .18);
+}
+
+/* Base */
+html, body{
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+height: 100%;
+  margin: 0;
+}
+
+/* Animierter Background-Layer (liegt über html-Hintergrund, unter dem UI) */
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(900px 520px at 18% 10%, var(--bg-spot-1), transparent 60%),
+    radial-gradient(820px 520px at 82% 20%, var(--bg-spot-2), transparent 60%);
+  animation: bgFloat 16s ease-in-out infinite alternate;
+  will-change: transform, filter;
+}
+
+/* Alles im Body bleibt über dem Background-Layer */
+body > *{
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes bgFloat{
+  0%{
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0px);
+  }
+  50%{
+    transform: translate3d(-2%, 1%, 0) scale(1.02);
+    filter: blur(0.5px);
+  }
+  100%{
+    transform: translate3d(2%, -1%, 0) scale(1.03);
+    filter: blur(0px);
+  }
+}
+
+
+html{
+  min-height: 100%;
+  background: linear-gradient(180deg, var(--bg-a), var(--bg-b));
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(900px 520px at 18% 10%, var(--bg-spot-1), transparent 60%),
+    radial-gradient(820px 520px at 82% 20%, var(--bg-spot-2), transparent 60%),
+    linear-gradient(180deg, var(--bg-a), var(--bg-b));
+}
+
+/* Header bar */
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 10px 14px;
+  backdrop-filter: blur(10px);
+  background: var(--surface-strong);
+  border-bottom: 1px solid var(--surface-border);
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.header__left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.header__right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in oklab, var(--accent) 24%, transparent);
+  color: var(--text);
+  font-weight: 900;
+}
+
+/* Header pill buttons (Theme + Design) */
+.pill-toggle{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  color: var(--text);
+
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  user-select: none;
+}
+
+.pill-toggle:hover{ filter: brightness(1.02); }
+.pill-toggle:active{ transform: translateY(1px); }
+.pill-toggle:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.25), var(--shadow-soft);
+}
+
+.pill-toggle__icon{ font-size: 16px; line-height: 1; }
+.pill-toggle__text{ font-weight: 900; font-size: 13px; }
+
+/* Title */
+h1{
+  margin: 18px 0 10px;
+  text-align: center;
+  font-size: 2rem;
+  letter-spacing: .3px;
+  color: var(--text);
+  text-shadow: 0 10px 26px rgba(0,0,0,.10);
+}
+
+/* Layout */
+.main-container{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 18px;
+  box-sizing: border-box;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/* Panels */
+.left-panel, .right-panel{
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.left-panel{
+  width: 390px;
+  min-width: 320px;
+  height: 76vh;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  cursor: text;
+}
+
+.left-panel:focus{ outline: none; }
+.left-panel:focus-visible{
+  box-shadow: 0 0 0 3px rgba(37,99,235,.25), var(--shadow);
+}
+
+/* Tape area */
+.rechen-container{
+  flex: 1;
+  overflow: auto;
+  border-radius: var(--radius-sm);
+  padding: var(--tape-pad-top) var(--tape-pad-x) var(--tape-pad-top) var(--tape-pad-left);
+  background:
+    linear-gradient(0deg, var(--tape-shade-a), var(--tape-shade-b)),
+    /* draw the line at the bottom of each text row */
+    repeating-linear-gradient(180deg,
+      transparent 0 calc(var(--tape-step) - 1px),
+      var(--tape-line) calc(var(--tape-step) - 1px) var(--tape-step)),
+    var(--tape-paper);
+  border: 1px dashed var(--tape-edge);
+  position: relative;
+  background-position: 0 calc(var(--tape-pad-top) + var(--tape-align));
+}
+
+/* Perforation */
+.rechen-container::before{
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  bottom: 10px;
+  width: 10px;
+  background:
+    radial-gradient(circle at 50% calc(var(--tape-step) / 2), var(--tape-perf) 0 2px, transparent 3px)
+    0 0 / 10px var(--tape-step);
+  opacity: .35;
+  pointer-events: none;
+}
+
+pre{
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+  font-size: 16px;
+  line-height: var(--tape-step);
+  text-align: right;
+  color: var(--tape-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  /* shift text down so it sits visually on the rule lines */
+  padding-top: var(--tape-align);
+}
+
+.status-panel{
+  height: 36px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(2, 6, 23, .92);
+  color: #e5e7eb;
+  font-weight: 900;
+  box-shadow: var(--shadow-soft);
+}
+html[data-theme="dark"] .status-panel{
+  background: rgba(2, 6, 23, .75);
+}
+
+/* Right panel */
+.right-panel{
+  width: 470px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.decimal-container, .mode-container{
+  margin-top: 4px;
+}
+
+.decimal-label, .mode-label{
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 6px;
+  font-weight: 900;
+}
+
+.input-field{
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 15px;
+  padding: 10px 12px;
+
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--surface-border);
+  background: rgba(255,255,255,.72);
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.input-field::placeholder{
+  color: rgba(71,85,105,.75);
+}
+
+html[data-theme="dark"] .input-field::placeholder{
+  color: rgba(148,163,184,.85);
+}
+html[data-theme="dark"] .input-field{
+  background: rgba(2, 6, 23, .35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+html[data-theme="dark"] select.input-field{
+  background: rgba(16, 24, 41, .72);
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] select.input-field option{
+  background: #0b1220;
+  color: #e5e7eb;
+}
+
+.input-field:disabled{
+  opacity: .75;
+  cursor: not-allowed;
+  color: var(--muted);
+}
+
+.operator-container{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Buttons */
+.button{
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0,0,0,.10);
+  padding: 11px 12px;
+
+  background: linear-gradient(180deg, var(--btn-main-a), var(--btn-main-b));
+  color: var(--btn-main-text);
+  font-weight: 1000;
+  letter-spacing: .2px;
+
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,.16);
+  transition: transform .08s ease, box-shadow .15s ease, filter .15s ease;
+}
+
+.button:hover{ filter: brightness(1.02); }
+.button:active{
+  transform: translateY(1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.14);
+}
+.button:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.25), 0 8px 18px rgba(0,0,0,.16);
+}
+
+/* Special buttons */
+.reset-button{
+  background: linear-gradient(180deg, var(--btn-reset-a), var(--btn-reset-b));
+  color: var(--btn-reset-text);
+}
+.drucken-button{
+  background: linear-gradient(180deg, var(--btn-print-a), var(--btn-print-b));
+  color: var(--btn-print-text);
+}
+.zurueck-button{
+  background: linear-gradient(180deg, var(--btn-back-a), var(--btn-back-b));
+  color: var(--btn-back-text);
+}
+
+/* Responsive */
+@media (max-width: 1050px){
+  .main-container{
+    flex-direction: column;
+    align-items: center;
+  }
+  .left-panel, .right-panel{
+    width: min(94vw, 560px);
+  }
+  .left-panel{
+    height: 60vh;
+  }
+}
+
+
+/* Print */
+@media print{
+  html{ background: #fff !important; }
+  body::before{ display: none !important; }
+
+  body{
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .header, h1, .right-panel, .status-panel{
+    display: none !important;
+  }
+  .main-container{
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  .left-panel{
+    width: 100% !important;
+    height: auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+  }
+  .rechen-container{
+    border: 1px solid #000 !important;
+    background: #fff !important;
+  }
+  pre{
+    color: #000 !important;
+  }
+}
+
+
+
+/* ==========================
+   Test effects bundle (v0.1)
+   Keyboard-first micro-interactions
+   ========================== */
+
+.left-panel{ position: relative; }
+
+/* 1) Typing glow on left panel */
+.left-panel.is-typing{
+  box-shadow:
+    0 0 0 2px color-mix(in oklab, var(--accent) 42%, transparent),
+    var(--shadow);
+}
+.left-panel.is-typing::after{
+  content:"";
+  position:absolute;
+  inset: -1px;
+  border-radius: var(--radius);
+  pointer-events:none;
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 18%, transparent);
+  opacity: .55;
+}
+
+/* 2) Tape paper grain overlay (very subtle) */
+.rechen-container{ position: relative; }
+.rechen-container::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: var(--radius-sm);
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(0,0,0,.06) 0 1px, transparent 2px) 0 0/22px 22px,
+    radial-gradient(circle at 70% 55%, rgba(0,0,0,.05) 0 1px, transparent 2px) 0 0/28px 28px;
+  opacity: .12;
+  mix-blend-mode: multiply;
+}
+html[data-theme="dark"] .rechen-container::after{
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.10) 0 1px, transparent 2px) 0 0/22px 22px,
+    radial-gradient(circle at 72% 58%, rgba(255,255,255,.08) 0 1px, transparent 2px) 0 0/28px 28px;
+  opacity: .10;
+  mix-blend-mode: screen;
+}
+
+/* 3) Current input line highlight */
+pre span:last-child{
+  display:inline-block;
+  padding: 0 6px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--accent-2) 18%, transparent), transparent);
+}
+
+/* 4) Status "toast" */
+.status-panel{
+  transition: opacity .18s ease, transform .18s ease, filter .18s ease;
+  opacity: .35;
+  transform: translateY(4px);
+}
+.status-panel.toast{
+  opacity: 1;
+  transform: translateY(0);
+  filter: saturate(1.02);
+}
+
+/* 5) Result "punch" on Enter */
+.rechen-container{ transition: filter .20s ease; }
+.rechen-container.punch{
+  filter: contrast(1.08) brightness(1.03);
+}
